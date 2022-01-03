@@ -14,8 +14,8 @@ public class Pessoa {
 		this.nome = nome;
 		this.telefone = telefone;
 		this.data_nascimento = data_nascimento;
-		setData_cadastro();
-		setData_alteracao();
+		this.data_cadastro = new Date();
+		this.data_alteracao = new Date();
 	}
 
 	public String getNome() {
@@ -46,9 +46,9 @@ public class Pessoa {
 		return data_cadastro;
 	}
 
-	public void setData_cadastro() {
+	/*public void setData_cadastro() {
 		this.data_cadastro = new Date();
-	}
+	}*/
 
 	public Date getData_alteracao() {
 		return data_alteracao;
