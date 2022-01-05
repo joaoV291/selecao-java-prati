@@ -1,6 +1,7 @@
 package classes;
 
-import java.util.Date;
+import java.text.*;
+import java.util.*;
 
 public class Pessoa {
 	private String nome;
@@ -16,6 +17,20 @@ public class Pessoa {
 		this.data_nascimento = data_nascimento;
 		this.data_cadastro = new Date();
 		this.data_alteracao = new Date();
+	}
+	
+	public Pessoa(String nome, int telefone, String data_nascimento) {
+		super();
+		this.nome = nome;
+		this.telefone = telefone;
+		this.setData_nascimento(data_nascimento);
+		this.data_cadastro = new Date();
+		this.data_alteracao = new Date();
+	}
+	
+	public void showData() {
+		System.out.println(this.nome+"\t"+this.telefone+"\t"+this.data_nascimento+"\t"
+				+this.data_cadastro+"\t"+this.data_alteracao);
 	}
 
 	public String getNome() {
@@ -40,6 +55,16 @@ public class Pessoa {
 
 	public void setData_nascimento(Date data_nascimento) {
 		this.data_nascimento = data_nascimento;
+	}
+
+	public void setData_nascimento(String data) {
+		try {
+            DateFormat fmt2 = new SimpleDateFormat("dd/MM/yyyy");
+            Date dt = fmt2.parse(data);
+            this.data_nascimento = dt;
+        } catch(Exception e) {
+            System.out.println("Formato de data invalido");
+        }
 	}
 
 	public Date getData_cadastro() {
