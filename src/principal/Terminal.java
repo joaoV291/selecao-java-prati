@@ -11,136 +11,146 @@ import classes.Pessoa;
 
 public class Terminal {
 	
+	public static void getAlunos(ArrayList<Aluno> list) {
+		if(list.isEmpty()) {
+			System.out.println("Alumn not found!");
+		}else {
+			for (Aluno i : list) {
+				System.out.println("No\tName\tTelefone\tNasc\tCadastro\tAlteracao\tNotafinal");
+				System.out.print(list.indexOf(i)+"\t");
+				i.showData();
+			}
+		}
+	}
+	public static void getPessoas(ArrayList<Pessoa> list) {
+		if(list.isEmpty()) {
+			System.out.println("People not found!");
+		}else {
+			for (Pessoa i : list) {
+				System.out.println("No\tName\tTelefone\tNasc\tCadastro\tAlteracao");
+				System.out.print(list.indexOf(i)+"\t");
+				i.showData();
+			}
+		}
+	}
+
 
 	public static void main(String[] args) {
 		Scanner sc= new Scanner(System.in);    //System.in is a standard input stream  
-		int choice = 0;
+		int choice = 5;
 		ArrayList<Pessoa> p = new ArrayList<>();
 		ArrayList<Aluno> a = new ArrayList<>();
 		
-		while(choice !=5) {
-			System.out.print("Enter number- 1-create, 2-read, 3-update, 4-delete, 5-exit");  
+		while(choice !=0) {
+			System.out.print("Enter number:\n 1-create;\n 2-read;\n 3-update;\n 4-delete;\n 0-exit");  
 			choice=sc.nextInt();
 
-			switch (choice) {
-				case 1:	//Create - 1
-					//nome
-					System.out.print("Enter name");  
-					String nm = sc.nextLine();
-					//telefone
-					System.out.print("Enter telephone");  
-					int tel = sc.nextInt();
-					//data nascimento
-					System.out.print("Enter birthdate (dd/MM/aaaa)");  
-					String nasc = sc.nextLine();
-					
-					//nota final do curso
-					System.out.print("nota final? (true/false)");  
-					boolean al = sc.nextBoolean();
-					if(al) {
-						System.out.print("Enter final note");  
-						Double not = sc.nextDouble();
-						a.add(new Aluno(nm, tel, nasc, not));
-					}else {
-						p.add(new Pessoa(nm,tel,nasc));
-					}
-					break;
-				case 2:	//Read - 2
-					//Systemy.searchClient();
-					if(p.isEmpty() && a.isEmpty()) {
-						System.out.println("No data found!");
-					}else {
-						if(p.isEmpty()) {
-							System.out.println("People not found!");
-						}else {
-							for (Pessoa i : p) {
-								System.out.println("No\tName\tTelefone\tNasc\tCadastro\tAlteracao");
-								System.out.print(p.indexOf(i)+"\t");
-								i.showData();
-							}
-						}
-						if(a.isEmpty()) {
-							System.out.println("Alumn not found!");
-						}else {
-							for (Aluno i : a) {
-								System.out.println("No\tName\tTelefone\tNasc\tCadastro\tAlteracao\tNotafinal");
-								System.out.print(a.indexOf(i)+"\t");
-								i.showData();
-							}
-						}
-					}
-					break;
-				case 3:	//Update - 3
-					//data ultima alteracao
-					System.out.println("select (p/a)");
-					char l = sc.nextLine().charAt(0);
-					
+			if(choice==1) {
+				System.out.print("Enter name");  
+				String nm = sc.nextLine();
+				//telefone
+				System.out.print("Enter telephone");  
+				int tel = sc.nextInt();
+				//data nascimento
+				System.out.print("Enter birthdate (dd/MM/aaaa)");  
+				String nasc = sc.nextLine();
+				
+				//nota final do curso
+				System.out.print("nota final? (1=sim/0=nao)");  
+				boolean al = sc.nextBoolean();
+				if(al) {
+					System.out.print("Enter final note");  
+					Double not = sc.nextDouble();
+					a.add(new Aluno(nm, tel, nasc, not));
+					System.out.println("Aluno criado!"+a.get(a.size()).getNome());
+				} else {
+					p.add(new Pessoa(nm,tel,nasc));
+					System.out.println("Pessoa criada!"+p.get(a.size()).getNome());
+				}
+			} else if(choice==2||choice==3||choice==4) {
+				if(p.isEmpty() && a.isEmpty()) {
+					System.out.println("No data found!");
+				} else {
+					getPessoas(p);
+					getAlunos(a);
+				}
+				
+				if(choice==3||choice==4) {
+					//while(l!='p'||l!='a') {
+					//ArrayList<> x;
+					System.out.println("select\n 0.pessoa\n 1.aluno");
+					boolean l = sc.nextBoolean();
+					//}
 					System.out.println("select from index list");
 					int j = sc.nextInt();
-					if(l=='p') {
-						Pessoa k = p.get(j);
-						int x = 0;
-						while(x!=4) {
-							k.showData();
-							System.out.println("select (1.name, 2.telephone, 3.dataNasc, 4.exit):");
-							x = sc.nextInt();
-							System.out.println("novos dados:");
-							String s = sc.nextLine();
-							if(x==1) {
-								k.setNome(s);
-							}else if(x==2) {
-								k.setTelefone(Integer.parseInt(s));
-							}else if(x==3) {
-								k.setData_nascimento(s);
-							}
-							
+					if(choice==4) {
+						if(l) {
+							String nm = p.get(j).getNome();
+							p.remove(j);
+							System.out.println("Pessoa "+nm+" removida");
+						}else{
+							String nm = a.get(j).getNome();
+							a.remove(j);
+							System.out.println("Aluno "+nm+" removido");
 						}
-						k.setData_alteracao();
-					}else if (l=='a') {
-						Aluno k = a.get(j);
-						int x = 0;
-						while(x!=5) {
-							k.showData();
-							System.out.println("select (1.name, 2.telephone, 3.dataNasc, 4.notaFinal, 5.exit):");
-							x = sc.nextInt();
-							System.out.println("novos dados:");
-							String s = sc.nextLine();
-							if(x==1) {
-								k.setNome(s);
-							}else if(x==2) {
-								k.setTelefone(Integer.parseInt(s));
-							}else if(x==3) {
-								k.setData_nascimento(s);
-							}else if(x==4) {
-								k.setNota_final(Double.parseDouble(s));
+					} else {
+						int y=5;
+						if(l) {
+							Pessoa x=p.get(j);
+							while(y!=0) {
+								x.showData();
+								System.out.println("select:\n 1.name;\n 2.telephone;\n 3.dataNasc;\n 0.exit");
+								y = sc.nextInt();
+								switch (y) {
+								case 1:
+									System.out.println("novo nome:");
+									x.setNome(sc.nextLine());
+									break;
+								case 2:
+									System.out.println("novo telefone:");
+									x.setTelefone(sc.nextInt());
+									break;
+								case 3:
+									System.out.println("nova data nascimento('dd/mm/aaaa'):");
+									x.setData_nascimento(sc.nextLine());
+									break;
+								//default:
+								}
+								x.setData_alteracao();
 							}
-							
+						}else{
+							Aluno x=a.get(j);
+							while(y!=0) {
+								x.showData();
+								System.out.println("select:\n 1.name;\n 2.telephone;\n 3.dataNasc;\n 4.notaFinal;\n 0.exit");
+								y = sc.nextInt();
+								switch (y) {
+								case 1:
+									System.out.println("novo nome:");
+									x.setNome(sc.nextLine());
+									break;
+								case 2:
+									System.out.println("novo telefone:");
+									x.setTelefone(sc.nextInt());
+									break;
+								case 3:
+									System.out.println("nova data nascimento('dd/mm/aaaa'):");
+									x.setData_nascimento(sc.nextLine());
+									break;
+								case 4:
+									System.out.println("nova nota final:");
+									x.setNota_final(sc.nextDouble());
+									break;
+								//default:
+								}
+								x.setData_alteracao();
+							}
 						}
-						k.setData_alteracao();
-					}else {
-						System.out.println("Invalid data!");
 					}
-					//Systemy.extendLimit();
-					break;
-				case 4:	//Delete - 4
-					//Systemy.extendLimit();
-					System.out.println("select (p/a)");
-					l = sc.nextLine().charAt(0);
-					
-					System.out.println("select from index list");
-					j = sc.nextInt();
-					if(l=='p') {
-						p.remove(j);
-					}else if(l=='a') {
-						a.remove(j);
-					}
-
-					break;
-				default:
-					System.out.println("Invalid!!!");
+				}
+			} else {
+				System.out.println("Invalid!!!");
 			}
-			
-			
 		}
 		sc.close();
 	}
