@@ -2,9 +2,6 @@ package principal;
 
 //import java.text.*;
 import java.util.*;
-//import java.util.ArrayList;
-//import java.util.Date;
-//import java.util.Scanner;
 
 import classes.Aluno;
 import classes.Pessoa;
@@ -13,10 +10,11 @@ public class Terminal {
 	
 	public static void getAlunos(ArrayList<Aluno> list) {
 		if(list.isEmpty()) {
-			System.out.println("Alumn not found!");
+			System.out.println("Alunos nao encontrados!");
 		}else {
 			for (Aluno i : list) {
-				System.out.println("No\tName\tTelefone\tNasc\tCadastro\tAlteracao\tNotafinal");
+				System.out.println("Alunos");
+				System.out.println("No\tName\tTelefone\tData Nascimento\tData Cadastro\tData Alteracao\tNota Final");
 				System.out.print(list.indexOf(i)+"\t");
 				i.showData();
 			}
@@ -24,10 +22,11 @@ public class Terminal {
 	}
 	public static void getPessoas(ArrayList<Pessoa> list) {
 		if(list.isEmpty()) {
-			System.out.println("People not found!");
+			System.out.println("Pessoas nao encontradas!");
 		}else {
 			for (Pessoa i : list) {
-				System.out.println("No\tName\tTelefone\tNasc\tCadastro\tAlteracao");
+				System.out.println("Pessoas");
+				System.out.println("No\tName\tTelefone\tData Nascimento\tData Cadastro\tData Alteracao");
 				System.out.print(list.indexOf(i)+"\t");
 				i.showData();
 			}
@@ -42,114 +41,125 @@ public class Terminal {
 		ArrayList<Aluno> a = new ArrayList<>();
 		
 		while(choice !=0) {
-			System.out.print("Enter number:\n 1-create;\n 2-read;\n 3-update;\n 4-delete;\n 0-exit");  
-			choice=sc.nextInt();
+			System.out.println("Enter number:\n 1-create;\n 2-read;\n 3-update;\n 4-delete;\n 0-exit\n");  
+			choice=Integer.parseInt(sc.nextLine());
 
 			if(choice==1) {
-				System.out.print("Enter name");  
-				String nm = sc.nextLine();
+				String nm, tel, nasc, not;
+				//nome
+				System.out.print("Nome:");  
+				nm = sc.nextLine();
 				//telefone
-				System.out.print("Enter telephone");  
-				int tel = sc.nextInt();
+				System.out.print("Telefone:");  
+				tel = sc.nextLine();
 				//data nascimento
-				System.out.print("Enter birthdate (dd/MM/aaaa)");  
-				String nasc = sc.nextLine();
-				
+				System.out.print("Data de Nascimento (dd/MM/aaaa):");  
+				nasc = sc.nextLine();
 				//nota final do curso
-				System.out.print("nota final? (1=sim/0=nao)");  
-				boolean al = sc.nextBoolean();
-				if(al) {
-					System.out.print("Enter final note");  
-					Double not = sc.nextDouble();
+				System.out.print("Digite 'true' se quiser uma nota final:");  
+				String al = sc.nextLine();
+				if(Boolean.parseBoolean(al)) {
+					System.out.print("Valor da nota:");  
+					not = sc.nextLine();
 					a.add(new Aluno(nm, tel, nasc, not));
-					System.out.println("Aluno criado!"+a.get(a.size()).getNome());
+					//System.out.println("Aluno criado!"+a.get(a.size()).getNome());
 				} else {
-					p.add(new Pessoa(nm,tel,nasc));
-					System.out.println("Pessoa criada!"+p.get(a.size()).getNome());
+					p.add(new Pessoa(nm, tel, nasc));
+					//System.out.println("Pessoa criada!"+p.get(a.size()).getNome());
 				}
-			} else if(choice==2||choice==3||choice==4) {
+				
+			} else if(choice>=2&&choice<=4) {	//Read, Update, Delete
 				if(p.isEmpty() && a.isEmpty()) {
 					System.out.println("No data found!");
 				} else {
 					getPessoas(p);
 					getAlunos(a);
-				}
-				
-				if(choice==3||choice==4) {
-					//while(l!='p'||l!='a') {
-					//ArrayList<> x;
-					System.out.println("select\n 0.pessoa\n 1.aluno");
-					boolean l = sc.nextBoolean();
-					//}
-					System.out.println("select from index list");
-					int j = sc.nextInt();
-					if(choice==4) {
-						if(l) {
-							String nm = p.get(j).getNome();
-							p.remove(j);
-							System.out.println("Pessoa "+nm+" removida");
-						}else{
-							String nm = a.get(j).getNome();
-							a.remove(j);
-							System.out.println("Aluno "+nm+" removido");
-						}
-					} else {
-						int y=5;
-						if(l) {
-							Pessoa x=p.get(j);
-							while(y!=0) {
-								x.showData();
-								System.out.println("select:\n 1.name;\n 2.telephone;\n 3.dataNasc;\n 0.exit");
-								y = sc.nextInt();
-								switch (y) {
-								case 1:
-									System.out.println("novo nome:");
-									x.setNome(sc.nextLine());
-									break;
-								case 2:
-									System.out.println("novo telefone:");
-									x.setTelefone(sc.nextInt());
-									break;
-								case 3:
-									System.out.println("nova data nascimento('dd/mm/aaaa'):");
-									x.setData_nascimento(sc.nextLine());
-									break;
-								//default:
-								}
-								x.setData_alteracao();
+				//}
+					if(choice>2) {	//Update, Delete
+						//while(l!='p'||l!='a') {
+						//ArrayList<> x;
+						System.out.println("Digite 'true' para escolher um aluno (senao, vai escolher uma pessoa)");
+						String l = sc.nextLine();
+						//}
+						System.out.println("select from index list");
+						int j = Integer.parseInt(sc.nextLine());
+						if(choice==4) {	//Delete
+							if(Boolean.parseBoolean(l)) {
+								String nm = p.get(j).getNome();
+								p.remove(j);
+								System.out.println("Pessoa "+nm+" removida");
+							}else{
+								String nm = a.get(j).getNome();
+								a.remove(j);
+								System.out.println("Aluno "+nm+" removido");
 							}
-						}else{
-							Aluno x=a.get(j);
-							while(y!=0) {
-								x.showData();
-								System.out.println("select:\n 1.name;\n 2.telephone;\n 3.dataNasc;\n 4.notaFinal;\n 0.exit");
-								y = sc.nextInt();
-								switch (y) {
-								case 1:
-									System.out.println("novo nome:");
-									x.setNome(sc.nextLine());
-									break;
-								case 2:
-									System.out.println("novo telefone:");
-									x.setTelefone(sc.nextInt());
-									break;
-								case 3:
-									System.out.println("nova data nascimento('dd/mm/aaaa'):");
-									x.setData_nascimento(sc.nextLine());
-									break;
-								case 4:
-									System.out.println("nova nota final:");
-									x.setNota_final(sc.nextDouble());
-									break;
-								//default:
+						} else {	//Update
+							int y=5;
+							if(Boolean.parseBoolean(l)) {
+								Pessoa x=p.get(j);
+								while(y!=0) {
+									x.showData();
+									System.out.println("select:\n 1.name;\n 2.telephone;\n 3.dataNasc;\n 0.exit\n");
+									y = sc.nextInt();
+									switch (y) {
+									case 1:
+										System.out.println("novo nome:");
+										x.setNome(sc.nextLine());
+										x.setData_alteracao();
+										break;
+									case 2:
+										System.out.println("novo telefone:");
+										x.setTelefone(sc.nextLine());
+										x.setData_alteracao();
+										break;
+									case 3:
+										System.out.println("nova data nascimento('dd/mm/aaaa'):");
+										x.setData_nascimento(sc.nextLine());
+										x.setData_alteracao();
+										break;
+									default:
+										System.out.println("Entrada invalida!");
+									}
 								}
-								x.setData_alteracao();
+							}else{
+								Aluno x=a.get(j);
+								while(y!=0) {
+									x.showData();
+									System.out.println("select:\n 1.name;\n 2.telephone;\n 3.dataNasc;\n 4.notaFinal;\n 0.exit\n");
+									y = sc.nextInt();
+									switch (y) {
+									case 1:
+										System.out.println("novo nome:");
+										x.setNome(sc.nextLine());
+										x.setData_alteracao();
+										break;
+									case 2:
+										System.out.println("novo telefone:");
+										x.setTelefone(sc.nextLine());
+										x.setData_alteracao();
+										break;
+									case 3:
+										System.out.println("nova data nascimento('dd/mm/aaaa'):");
+										x.setData_nascimento(sc.nextLine());
+										x.setData_alteracao();
+										break;
+									case 4:
+										System.out.println("nova nota final:");
+										x.setNota_final(sc.nextLine());
+										x.setData_alteracao();
+										break;
+									default:
+										System.out.println("Entrada invalida!");
+									}
+								}
 							}
 						}
 					}
 				}
+			} else if(choice==0) {
+				System.out.println("Saindo...");
 			} else {
-				System.out.println("Invalid!!!");
+				System.out.println("Entrada invalida!!!");
 			}
 		}
 		sc.close();

@@ -19,10 +19,10 @@ public class Pessoa {
 		this.data_alteracao = new Date();
 	}
 	
-	public Pessoa(String nome, int telefone, String data_nascimento) {
+	public Pessoa(String nome, String telefone, String data_nascimento) {
 		super();
 		this.nome = nome;
-		this.telefone = telefone;
+		this.setTelefone(telefone);
 		this.setData_nascimento(data_nascimento);
 		this.data_cadastro = new Date();
 		this.data_alteracao = new Date();
@@ -49,8 +49,22 @@ public class Pessoa {
 		this.telefone = telefone;
 	}
 
-	public Date getData_nascimento() {
-		return data_nascimento;
+	public void setTelefone(String telefone) {
+		try {
+			this.telefone = Integer.parseInt(telefone);
+		}catch(Exception e) {
+            System.out.println("Telefone invalido! Corrija mais tarde");
+            this.telefone=00000000;
+		}
+	}
+
+	/*public Date getData_nascimento() {
+        return data_nascimento;
+	}*/
+
+	public String getData_nascimento() {
+		DateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
+        return fmt.format(data_nascimento);
 	}
 
 	public void setData_nascimento(Date data_nascimento) {
@@ -59,11 +73,12 @@ public class Pessoa {
 
 	public void setData_nascimento(String data) {
 		try {
-            DateFormat fmt2 = new SimpleDateFormat("dd/MM/yyyy");
-            Date dt = fmt2.parse(data);
+            DateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
+            Date dt = fmt.parse(data);
             this.data_nascimento = dt;
         } catch(Exception e) {
             System.out.println("Formato de data invalido");
+            //this.data_nascimento = new SimpleDateFormat("dd/MM/yyyy").parse("01/01/1950");
         }
 	}
 
