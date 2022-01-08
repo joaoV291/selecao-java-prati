@@ -1,10 +1,10 @@
 package classes;
 
-import java.util.Date;
+import java.util.*;
 
 public class Aluno extends Pessoa {
 	
-	private double nota_final;
+	private double nota_final = 0.0d;
 
 	public Aluno(String nome, int telefone, Date data_nascimento, double nota_final) {
 		super(nome, telefone, data_nascimento);
@@ -17,23 +17,29 @@ public class Aluno extends Pessoa {
 	}
 	
 	public void showData() {
-		System.out.println(this.getNome()+"\t"+this.getTelefone()+"\t"+this.getData_nascimento()+"\t"
-				+this.getData_cadastro()+"\t"+this.getData_alteracao()+"\t"+this.nota_final);
+		System.out.println(this.getNome()+"\t"+this.getTelefone()+"\t"+this.getData_nascimento()+this.nota_final+"\t"
+				+this.getData_cadastro()+"\t"+this.getData_alteracao()+"\t");
 	}
 	
 	public double getNota_final() {
 		return nota_final;
 	}
 	public void setNota_final(double nota_final) {
-		this.nota_final = nota_final;
+		if(nota_final>=0&&nota_final<=10)
+			this.nota_final = nota_final;
+		else
+			System.out.println("Nota invalida!");
 	}
 	
 	public void setNota_final(String nota) {
-		try {
-			this.nota_final = Double.parseDouble(nota);
-		}catch(Exception e) {
-            System.out.println("Nota invalida! Ajuste mais tarde");
-            this.nota_final= 0.0d;
+		if(nota_final>=0&&nota_final<=10) {
+			try {
+				this.nota_final = Double.parseDouble(nota);
+			}catch(Exception e) {
+				System.out.println("Nota invalida!");
+			}
+		} else {
+			System.out.println("Nota invalida!");
 		}
 	}
 	

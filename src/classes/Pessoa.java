@@ -5,8 +5,8 @@ import java.util.*;
 
 public class Pessoa {
 	private String nome;
-	private int telefone;
-	private Date data_nascimento;
+	private int telefone = 0;
+	private Date data_nascimento;	// = new SimpleDateFormat("dd/MM/yyyy").parse("01/01/1950");
 	private Date data_cadastro;
 	private Date data_alteracao;
 	
@@ -29,7 +29,7 @@ public class Pessoa {
 	}
 	
 	public void showData() {
-		System.out.println(this.nome+"\t"+this.telefone+"\t"+this.data_nascimento+"\t"
+		System.out.println(this.nome+"\t"+this.telefone+"\t"+this.getData_nascimento()+"\t"
 				+this.data_cadastro+"\t"+this.data_alteracao);
 	}
 
@@ -53,18 +53,18 @@ public class Pessoa {
 		try {
 			this.telefone = Integer.parseInt(telefone);
 		}catch(Exception e) {
-            System.out.println("Telefone invalido! Corrija mais tarde");
-            this.telefone=00000000;
+            System.out.println("Telefone invalido!");
 		}
 	}
 
-	/*public Date getData_nascimento() {
-        return data_nascimento;
-	}*/
 
 	public String getData_nascimento() {
-		DateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
-        return fmt.format(data_nascimento);
+		try {
+			SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
+			return fmt.format(this.data_nascimento);
+		}catch(Exception e) {
+			return "Data Invalida!";
+		}
 	}
 
 	public void setData_nascimento(Date data_nascimento) {
@@ -73,22 +73,17 @@ public class Pessoa {
 
 	public void setData_nascimento(String data) {
 		try {
-            DateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
-            Date dt = fmt.parse(data);
-            this.data_nascimento = dt;
-        } catch(Exception e) {
-            System.out.println("Formato de data invalido");
-            //this.data_nascimento = new SimpleDateFormat("dd/MM/yyyy").parse("01/01/1950");
-        }
+			SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
+			Date dt = fmt.parse(data);
+			this.data_nascimento = dt;
+		} catch(Exception e) {
+			System.out.println("Formato de data invalido");
+		}
 	}
 
 	public Date getData_cadastro() {
 		return data_cadastro;
 	}
-
-	/*public void setData_cadastro() {
-		this.data_cadastro = new Date();
-	}*/
 
 	public Date getData_alteracao() {
 		return data_alteracao;
@@ -97,6 +92,5 @@ public class Pessoa {
 	public void setData_alteracao() {
 		this.data_alteracao = new Date();
 	}
-	
 	
 }
