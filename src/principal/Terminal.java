@@ -39,9 +39,11 @@ public class Terminal {
 		int choice = 5;
 		ArrayList<Pessoa> p = new ArrayList<>();
 		ArrayList<Aluno> a = new ArrayList<>();
+		System.out.println("Projeto CRUD (Create, Read, Update, Delete)");  
+		System.out.println("Pessoas e Alunos\n");  
 		
 		while(choice !=0) {
-			System.out.println("Enter number:\n 1-create;\n 2-read;\n 3-update;\n 4-delete;\n 0-exit\n");  
+			System.out.println("Escolha um numero:\n 1-Create;\n 2-Read;\n 3-Update;\n 4-Delete;\n 0-SAIR\n");  
 			try {
 				choice=Integer.parseInt(sc.nextLine());
 				if(choice==1) {
@@ -70,7 +72,7 @@ public class Terminal {
 					
 				} else if(choice==2) {	//Read
 					if(p.isEmpty() && a.isEmpty()) {
-						System.out.println("No data found!");
+						System.out.println("Ninguem foi encontrado!");
 					} else {
 						getPessoas(p);
 						getAlunos(a);
@@ -114,24 +116,25 @@ public class Terminal {
 							if(!Boolean.parseBoolean(l)) {
 								Pessoa x=p.get(j);
 								while(y!=0) {
+									System.out.println("Nome\tTelefone\tData Nascimento\tNota Final\tData Cadastro\tData Alteracao");
 									x.showData();
-									System.out.println("select:\n 1.name;\n 2.telephone;\n 3.dataNasc;\n 0.exit\n");
+									System.out.println("Selecione:\n 1.Nome;\n 2.Telefone;\n 3.Data Nasc.;\n 0.VOLTAR\n");
 									try {
 										y = Integer.parseInt(sc.nextLine());
 										if(y==1) {
-											System.out.println("novo nome:");
+											System.out.println("Novo nome:");
 											x.setNome(sc.nextLine());
 											x.setData_alteracao();
 										} else if(y==2) {
-											System.out.println("novo telefone:");
+											System.out.println("Novo telefone:");
 											x.setTelefone(sc.nextLine());
 											x.setData_alteracao();
 										} else if(y==3) {
-											System.out.println("nova data nascimento('dd/mm/aaaa'):");
+											System.out.println("Nova data nascimento('dd/mm/aaaa'):");
 											x.setData_nascimento(sc.nextLine());
 											x.setData_alteracao();
 										} else if(y==0) {
-											System.out.println("Voltando atras...!");
+											System.out.println("Voltando...!");
 										} else {
 											System.out.println("Entrada invalida!");
 										}
@@ -142,8 +145,9 @@ public class Terminal {
 							}else{
 								Aluno x=a.get(j);
 								while(y!=0) {
+									System.out.println("Nome\tTelefone\tData Nascimento\tNota Final\tData Cadastro\tData Alteracao");
 									x.showData();
-									System.out.println("select:\n 1.name;\n 2.telephone;\n 3.dataNasc;\n 4.notaFinal;\n 0.exit\n");
+									System.out.println("Selecione:\n 1.Nome;\n 2.Telefone;\n 3.Data Nasc.;\n 4.Nota Final;\n 0.VOLTAR\n");
 									try {
 										y = Integer.parseInt(sc.nextLine());
 										if(y==1) {
@@ -163,7 +167,7 @@ public class Terminal {
 											x.setNota_final(sc.nextLine());
 											x.setData_alteracao();
 										} else if(y==0) {
-											System.out.println("Voltando atras...!");
+											System.out.println("Voltando...!");
 										} else {
 											System.out.println("Entrada invalida!");
 										}
