@@ -13,11 +13,18 @@ public class Terminal {
 			System.out.println("Alunos nao encontrados!");
 		}else {
 			System.out.println("Alunos");
-			System.out.println("No\tName\tTelefone\tData Nascimento\tNota Final\tData Cadastro\tData Alteracao");
+			System.out.format("%-5s|", "Num.");
+			System.out.format("%-25s|", "Nome");
+			System.out.format("%-15s|", "Telefone");
+			System.out.format("%-15s|", "Data Nasc.");
+			System.out.format("%-12s|", "Nota Final");
+			System.out.format("%-20s|", "Data Cadastro");
+			System.out.format("%-20s%n", "Data Alteracao");
 			for (Aluno i : list) {
-				System.out.print(list.indexOf(i)+"\t");
+				System.out.format("%-5d|", list.indexOf(i));
 				i.showData();
 			}
+			System.out.print("\n");
 		}
 	}
 	public static void getPessoas(ArrayList<Pessoa> list) {
@@ -25,11 +32,17 @@ public class Terminal {
 			System.out.println("Pessoas nao encontradas!");
 		}else {
 			System.out.println("Pessoas");
-			System.out.println("No\tName\tTelefone\tData Nascimento\tData Cadastro\tData Alteracao");
+			System.out.format("%-5s|", "Num.");
+			System.out.format("%-25s|", "Nome");
+			System.out.format("%-15s|", "Telefone");
+			System.out.format("%-15s|", "Data Nasc.");
+			System.out.format("%-20s|", "Data Cadastro");
+			System.out.format("%-20s%n", "Data Alteracao");
 			for (Pessoa i : list) {
-				System.out.print(list.indexOf(i)+"\t");
+				System.out.format("%-5d|", list.indexOf(i));
 				i.showData();
 			}
+			System.out.print("\n");
 		}
 	}
 
@@ -47,28 +60,28 @@ public class Terminal {
 			try {
 				choice=Integer.parseInt(sc.nextLine());
 				if(choice==1) {
-					String nm, tel, nasc, not;
+					String nm, tel, nasc;	//, not;
+					double nota = 0.0d;
 					//nome
 					System.out.print("Nome:");  
 					nm = sc.nextLine();
 					//telefone
-					System.out.print("Telefone:");  
+					System.out.print("Telefone (apenas números!):");  
 					tel = sc.nextLine();
 					//data nascimento
 					System.out.print("Data de Nascimento (dd/MM/aaaa):");  
 					nasc = sc.nextLine();
 					//nota final do curso
-					System.out.print("Digite 'true' se quiser uma nota final:");  
-					String al = sc.nextLine();
-					if(Boolean.parseBoolean(al)) {
-						System.out.print("Valor da nota:");  
-						not = sc.nextLine();
-						a.add(new Aluno(nm, tel, nasc, not));
-						System.out.println("Aluno criado!"+a.get(a.size()).getNome());
-					} else {
+					System.out.print("(OPCIONAL) Valor da nota (até 10.0):");  
+					try {
+						nota = Double.parseDouble(sc.nextLine());
+					}catch(Exception e) {
 						p.add(new Pessoa(nm, tel, nasc));
-						System.out.println("Pessoa criada!"+p.get(a.size()).getNome());
+						System.out.println("Pessoa criada: "+p.get(p.size()).getNome());
+						continue;
 					}
+					a.add(new Aluno(nm, tel, nasc, nota));
+					System.out.println("Aluno criado: "+a.get(a.size()).getNome());
 					
 				} else if(choice==2) {	//Read
 					if(p.isEmpty() && a.isEmpty()) {
@@ -84,14 +97,14 @@ public class Terminal {
 					
 					if(Boolean.parseBoolean(l)) {
 						if(a.isEmpty()) {
-							System.out.println("No students found!");
+							System.out.println("Nenhum aluno encontrado!");
 							continue;
 						} else {
 							getAlunos(a);
 						}
-					}else {
+					} else {
 						if(p.isEmpty()) {
-							System.out.println("No people found!");
+							System.out.println("Nenhuma pessoa encontrada!");
 							continue;
 						} else {
 							getPessoas(p);
@@ -102,22 +115,33 @@ public class Terminal {
 						int j = Integer.parseInt(sc.nextLine());
 					
 						if(choice==4) {		//Delete
-							if(!Boolean.parseBoolean(l)) {
-								String nm = p.get(j).getNome();
-								p.remove(j);
-								System.out.println("Pessoa "+nm+" removida");
-							}else{
-								String nm = a.get(j).getNome();
-								a.remove(j);
-								System.out.println("Aluno "+nm+" removido");
-							}
+							System.out.println("Confirme com 'true' se quiser excluir!");
+							String conf = sc.nextLine();
+							if(Boolean.parseBoolean(conf)) {
+								if(!Boolean.parseBoolean(l)) {
+									String nm = p.get(j).getNome();
+									p.remove(j);
+									System.out.println("Pessoa "+nm+" removida");
+								}else{
+									String nm = a.get(j).getNome();
+									a.remove(j);
+									System.out.println("Aluno "+nm+" removido");
+								}
+							} else {
+								continue;
+							} 
 						} else {	//Update
 							int y=5;
 							if(!Boolean.parseBoolean(l)) {
 								Pessoa x=p.get(j);
 								while(y!=0) {
-									System.out.println("Nome\tTelefone\tData Nascimento\tNota Final\tData Cadastro\tData Alteracao");
+									System.out.format("%-25s|", "Nome");
+									System.out.format("%-15s|", "Telefone");
+									System.out.format("%-15s|", "Data Nasc.");
+									System.out.format("%-20s|", "Data Cadastro");
+									System.out.format("%-20s%n", "Data Alteracao");
 									x.showData();
+									System.out.print("\n");
 									System.out.println("Selecione:\n 1.Nome;\n 2.Telefone;\n 3.Data Nasc.;\n 0.VOLTAR\n");
 									try {
 										y = Integer.parseInt(sc.nextLine());
@@ -126,7 +150,7 @@ public class Terminal {
 											x.setNome(sc.nextLine());
 											x.setData_alteracao();
 										} else if(y==2) {
-											System.out.println("Novo telefone:");
+											System.out.println("Novo telefone (apenas números!):");
 											x.setTelefone(sc.nextLine());
 											x.setData_alteracao();
 										} else if(y==3) {
@@ -145,25 +169,31 @@ public class Terminal {
 							}else{
 								Aluno x=a.get(j);
 								while(y!=0) {
-									System.out.println("Nome\tTelefone\tData Nascimento\tNota Final\tData Cadastro\tData Alteracao");
+									System.out.format("%-25s|", "Nome");
+									System.out.format("%-15s|", "Telefone");
+									System.out.format("%-15s|", "Data Nasc.");
+									System.out.format("%-12s|", "Nota Final");
+									System.out.format("%-20s|", "Data Cadastro");
+									System.out.format("%-20s%n", "Data Alteracao");
 									x.showData();
+									System.out.print("\n");
 									System.out.println("Selecione:\n 1.Nome;\n 2.Telefone;\n 3.Data Nasc.;\n 4.Nota Final;\n 0.VOLTAR\n");
 									try {
 										y = Integer.parseInt(sc.nextLine());
 										if(y==1) {
-											System.out.println("novo nome:");
+											System.out.println("Novo nome:");
 											x.setNome(sc.nextLine());
 											x.setData_alteracao();
 										} else if(y==2) {
-											System.out.println("novo telefone:");
+											System.out.println("Novo telefone (apenas números!):");
 											x.setTelefone(sc.nextLine());
 											x.setData_alteracao();
 										} else if(y==3) {
-											System.out.println("nova data nascimento('dd/mm/aaaa'):");
+											System.out.println("Nova data nascimento ('dd/mm/aaaa'):");
 											x.setData_nascimento(sc.nextLine());
 											x.setData_alteracao();
 										} else if(y==4) {
-											System.out.println("nova nota final:");
+											System.out.println("Nova nota final (até 10.0):");
 											x.setNota_final(sc.nextLine());
 											x.setData_alteracao();
 										} else if(y==0) {

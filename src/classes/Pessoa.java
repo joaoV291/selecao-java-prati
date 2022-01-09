@@ -29,8 +29,11 @@ public class Pessoa {
 	}
 	
 	public void showData() {
-		System.out.println(this.nome+"\t"+this.telefone+"\t"+this.getData_nascimento()+"\t"
-				+this.data_cadastro+"\t"+this.data_alteracao);
+		System.out.format("%-25s|",this.nome);
+		System.out.format("%-15d|",this.telefone);
+		System.out.format("%-15s|",this.getData_nascimento());
+		System.out.format("%-20s|",DateFormat.getInstance().format(this.data_cadastro));
+		System.out.format("%-20s%n",DateFormat.getInstance().format(this.data_alteracao));
 	}
 
 	public String getNome() {
@@ -60,7 +63,7 @@ public class Pessoa {
 
 	public String getData_nascimento() {
 		try {
-			SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
+			DateFormat fmt = SimpleDateFormat.getDateInstance(DateFormat.SHORT);
 			return fmt.format(this.data_nascimento);
 		}catch(Exception e) {
 			return "Data Invalida!";
